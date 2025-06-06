@@ -1,1 +1,23 @@
-[{"id":"49107678-54c8-46d0-baf7-b0e7582bc6de","title":"The Pragmatic Programme","imageUrl":"https://images-na.ssl-images-amazon.com/images/I/41as+WafrFL._SX258_BO1,204,203,200_.jpg","description":"A modern classic that covers the core of software craftsmanship.","price":"39.99"},{"id":"1da9e74b-c79e-42f3-b8fe-1104625e0450","title":"Clean Code","imageUrl":"https://images-na.ssl-images-amazon.com/images/I/41xShlnTZTL._SX374_BO1,204,203,200_.jpg","description":"A handbook of agile software craftsmanship by Robert C. Martin.","price":"34.50"},{"id":"7968b2f1-cef8-4d39-88ec-3e46b050b8d3","title":"You Don't Know JS","imageUrl":"https://raw.githubusercontent.com/getify/You-Dont-Know-JS/2nd-ed/scope-closures/images/cover.png","description":"Deep dive into the core mechanisms of the JavaScript language.","price":"29.95"}]
+[
+  {
+    "id": "49107678-54c8-46d0-baf7-b0e7582bc6de",
+    "title": "The Pragmatic Programme",
+    "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/41as+WafrFL._SX258_BO1,204,203,200_.jpg",
+    "description": "A modern classic that covers the core of software craftsmanship.",
+    "price": "39.99"
+  },
+  {
+    "id": "1da9e74b-c79e-42f3-b8fe-1104625e0450",
+    "title": "Clean Code",
+    "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/41xShlnTZTL._SX374_BO1,204,203,200_.jpg",
+    "description": "A handbook of agile software craftsmanship by Robert C. Martin.",
+    "price": "34.50"
+  },
+  {
+    "id": "7968b2f1-cef8-4d39-88ec-3e46b050b8d3",
+    "title": "You Don't Know JS",
+    "imageUrl": "https://raw.githubusercontent.com/getify/You-Dont-Know-JS/2nd-ed/scope-closures/images/cover.png",
+    "description": "Deep dive into the core mechanisms of the JavaScript language.",
+    "price": "29.95"
+  }
+]
