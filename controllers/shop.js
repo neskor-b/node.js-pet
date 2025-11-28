@@ -31,10 +31,18 @@ exports.getIndex = async (req, res, next) => {
   });
 };
 
-exports.getCart = (req, res, next) => {
+exports.getCart = async (req, res, next) => {
+  const cart = await Cart.getCart();
+  const products = await Product.fetchAll();
+  const cartProducts = cart?.products?.map((cartProduct) => {
+    const product = products.find((p) => p.id === cartProduct.id);
+    return { ...product, quantity: cartProduct.quantity };
+  });
+
   res.render('shop/cart', {
     pageTitle: 'Your Cart',
     path: '/cart',
+    products: cartProducts,
   });
 };
 

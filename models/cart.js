@@ -51,4 +51,15 @@ module.exports = class Cart {
       console.log(err);
     }
   }
+
+  static async getCart() {
+    try {
+      const fileContent = await fs.promises.readFile(constants.CART_PATH);
+      const cart = JSON.parse(fileContent);
+      return cart;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
 };
