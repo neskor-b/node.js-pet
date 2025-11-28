@@ -25,7 +25,7 @@ exports.getEditProduct = async (req, res, next) => {
 };
 
 exports.deleteProduct = async (req, res, next) => {
-  const prodId = req.params.productId;
+  const prodId = req.body.id;
   Product.deleteById(prodId);
   res.redirect('/admin/products');
 }
