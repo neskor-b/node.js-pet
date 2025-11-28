@@ -34,4 +34,21 @@ module.exports = class Cart {
     cart.totalPrice += Number(productPrice);
     return fs.promises.writeFile(constants.CART_PATH, JSON.stringify(cart));
   }
+
+  static async deleteProduct(id, productPrice) {
+    try {
+      const fileContent = await fs.promises.readFile(constants.CART_PATH);
+      const cart = JSON.parse(fileContent);
+      const product = cart.products.find((prod) => prod.id === id);
+      if (!product) {
+        return;
+      }
+      const productQty = product.quantity;
+      cart.products = cart.products.filter((prod) => prod.id !== id);
+      cart.totalPrice -= productPrice * productQty;
+      return fs.promises.writeFile(constants.CART_PATH, JSON.stringify(cart));
+    } catch (err) {
+      console.log(err);
+    }
+  }
 };

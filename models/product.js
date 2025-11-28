@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { v4 } = require('uuid');
 const constants = require('./constants');
+const Cart = require('./cart');
 
 module.exports = class Product {
   constructor({ title, imageUrl, description, price }) {
@@ -79,5 +80,6 @@ async function deleteProduct(id) {
       console.log(err);
     }
   })
+  Cart.deleteProduct(id, deletedProduct.price);
   return deletedProduct;
 }
