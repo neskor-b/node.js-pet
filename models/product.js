@@ -25,6 +25,9 @@ module.exports = class Product {
       return products.find((p) => p.id === id);
     });
   }
+  static deleteById(id) {
+    return deleteProduct(id);
+  }
 };
 
 function getProductsFromFile() {
@@ -58,4 +61,23 @@ async function updateProduct(product) {
       console.log(err);
     }
   });
+}
+
+async function deleteProduct(id) {
+  const allProducts = await getProductsFromFile();
+  let deletedProduct;
+  const updatedProducts = allProducts.filter((p) => {
+    if (p.id !== id) {
+      return true;
+    } else {
+      deletedProduct = p;
+      return false;
+    }
+  });
+  fs.writeFile(constants.PRODUCTS_PATH, JSON.stringify(updatedProducts), (err) => {
+    if (err) {
+      console.log(err);
+    }
+  })
+  return deletedProduct;
 }

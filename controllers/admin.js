@@ -24,6 +24,12 @@ exports.getEditProduct = async (req, res, next) => {
   });
 };
 
+exports.deleteProduct = async (req, res, next) => {
+  const prodId = req.params.productId;
+  Product.deleteById(prodId);
+  res.redirect('/admin/products');
+}
+
 exports.postEditProduct = (req, res, next) => {
   Product.update({
     id: req.params.productId,
