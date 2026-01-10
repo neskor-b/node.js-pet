@@ -8,6 +8,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 

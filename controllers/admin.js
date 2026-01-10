@@ -39,10 +39,14 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-  const products = await Product.fetchAll();
-  res.render('admin/products', {
-    prods: products,
-    pageTitle: 'Admin products',
-    path: '/admin/products',
-  });
+  try {
+    const [products] = await Product.fetchAll();
+    res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin products',
+      path: '/admin/products',
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

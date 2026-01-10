@@ -2,14 +2,18 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 
 exports.getProducts = async (req, res, next) => {
-  const products = await Product.fetchAll();
-  res.render('shop/product-list', {
-    prods: products,
-    pageTitle: 'All products',
-    path: '/products',
-    activeShop: true,
-    hasProducts: products.length > 0,
-  });
+  try {
+    const [products] = await Product.fetchAll();
+    res.render('shop/product-list', {
+      prods: products,
+      pageTitle: 'All products',
+      path: '/products',
+      activeShop: true,
+      hasProducts: products.length > 0,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getProduct = async (req, res, next) => {
@@ -23,12 +27,16 @@ exports.getProduct = async (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
-  const products = await Product.fetchAll();
-  res.render('shop/index', {
-    prods: products,
-    pageTitle: 'Shop',
-    path: '/',
-  });
+  try {
+    const [products] = await Product.fetchAll();
+    res.render('shop/index', {
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/',
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getCart = async (req, res, next) => {
