@@ -8,10 +8,14 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.postAddProduct = (req, res, next) => {
+exports.postAddProduct = async (req, res, next) => {
   const product = new Product(req.body);
-  product.save();
-  res.redirect('/');
+  try {
+    await product.save();
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 exports.getEditProduct = async (req, res, next) => {
