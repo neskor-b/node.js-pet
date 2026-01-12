@@ -3,7 +3,7 @@ const Cart = require('../models/cart');
 
 exports.getProducts = async (req, res, next) => {
   try {
-    const [products] = await Product.fetchAll();
+    const products = await Product.fetchAll();
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All products',
@@ -12,30 +12,34 @@ exports.getProducts = async (req, res, next) => {
       hasProducts: products.length > 0,
     });
   } catch (err) {
-    console.log(err);
+    next(err)
   }
 };
 
 exports.getProduct = async (req, res, next) => {
   const prodId = req.params.productId;
-  const product = await Product.findById(prodId);
-  res.render('shop/product-detail', {
-    product: product,
-    pageTitle: product.title,
-    path: '/products',
-  });
+  try {
+    const product = await Product.findById(prodId);
+    res.render('shop/product-detail', {
+      product: product,
+      pageTitle: product.title,
+      path: '/products',
+    });
+  } catch (err) {
+    next(err)
+  }
 };
 
 exports.getIndex = async (req, res, next) => {
   try {
-    const [products] = await Product.fetchAll();
+    const products = await Product.fetchAll();
     res.render('shop/index', {
       prods: products,
       pageTitle: 'Shop',
       path: '/',
     });
   } catch (err) {
-    console.log(err);
+    next(err)
   }
 };
 

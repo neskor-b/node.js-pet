@@ -18,12 +18,14 @@ module.exports = class Product {
   static update(product) {
 
   }
-  static fetchAll() {
-    return db.query('SELECT * FROM products');
+  static async fetchAll() {
+    const [products] = await db.execute('SELECT * FROM products');
+    return products;
   }
 
-  static findById(id) {
-
+  static async findById(id) {
+    const [[product]] = await db.execute('SELECT * FROM products WHERE products.id = ?', [id])
+    return product;
   }
   static deleteById(id) {
 
