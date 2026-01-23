@@ -18,7 +18,7 @@ export const postAddProduct = async (
   try {
     await Product.create({
       title: req.body.title,
-      price: req.body.price,
+      price: Number(req.body.price),
       imageUrl: req.body.imageUrl,
       description: req.body.description,
     });
@@ -71,7 +71,7 @@ export const postEditProduct = async (
     await Product.update(
       {
         title: req.body.title,
-        price: req.body.price,
+        price: Number(req.body.price),
         imageUrl: req.body.imageUrl,
         description: req.body.description,
       },
