@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Product from '../models/product';
+import { ProductBody, ProductIdParams, DeleteProductBody } from '../types/requests';
 
 export const getAddProduct = (req: Request, res: Response, next: NextFunction): void => {
   res.render('admin/edit-product', {
@@ -9,7 +10,11 @@ export const getAddProduct = (req: Request, res: Response, next: NextFunction): 
   });
 };
 
-export const postAddProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postAddProduct = async (
+  req: Request<{}, {}, ProductBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     await Product.create({
       title: req.body.title,
@@ -24,7 +29,11 @@ export const postAddProduct = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const getEditProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getEditProduct = async (
+  req: Request<ProductIdParams>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const prodId = req.params.productId;
     const product = await Product.findByPk(prodId);
@@ -38,7 +47,11 @@ export const getEditProduct = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const postDeleteProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postDeleteProduct = async (
+  req: Request<{}, {}, DeleteProductBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const prodId = req.body.id;
     await Product.destroy({ where: { id: prodId } });
@@ -48,7 +61,11 @@ export const postDeleteProduct = async (req: Request, res: Response, next: NextF
   }
 };
 
-export const postEditProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postEditProduct = async (
+  req: Request<ProductIdParams, {}, ProductBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const prodId = req.params.productId;
     await Product.update(

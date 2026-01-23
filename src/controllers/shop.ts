@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Product from '../models/product';
 import Cart from '../models/cart';
+import { ProductIdParams, AddToCartBody, DeleteProductBody } from '../types/requests';
 
 export const getProducts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -17,7 +18,11 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const getProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getProduct = async (
+  req: Request<ProductIdParams>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const prodId = req.params.productId;
   try {
     const product = await Product.findByPk(prodId);
@@ -70,7 +75,11 @@ export const getCart = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
-export const postCart = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postCart = async (
+  req: Request<{}, {}, AddToCartBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const prodId = req.body.productId;
     const product = await Product.findByPk(prodId);
@@ -83,7 +92,11 @@ export const postCart = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
-export const postCartDelete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const postCartDelete = async (
+  req: Request<{}, {}, DeleteProductBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const prodId = req.body.id;
     const product = await Product.findByPk(prodId);
