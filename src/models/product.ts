@@ -1,7 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../util/database';
 
-// Інтерфейс для атрибутів Product
 interface ProductAttributes {
   id: number;
   title: string;
@@ -10,10 +9,8 @@ interface ProductAttributes {
   description: string;
 }
 
-// Для створення нового продукту id є опціональним (auto-increment)
 interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'> {}
 
-// Клас моделі Product
 class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
   public id!: number;
   public title!: string;
@@ -21,7 +18,6 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> implem
   public imageUrl!: string;
   public description!: string;
 
-  // Timestamps
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
