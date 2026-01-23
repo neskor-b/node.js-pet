@@ -1,6 +1,6 @@
 export interface ProductBody {
   title: string;
-  price: number;
+  price: string;  // HTML форми завжди відправляють string
   imageUrl: string;
   description: string;
 }
