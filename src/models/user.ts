@@ -1,7 +1,12 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import {
+  DataTypes,
+  Model,
+  Optional,
+  type HasManyGetAssociationsMixin,
+  type HasManyCreateAssociationMixin,
+} from "sequelize";
 import sequelize from "../util/database";
 import Product from "./product";
-import { HasManyMixin } from "../types/sequelize-mixins";
 
 interface UserAttributes {
   id: number;
@@ -10,14 +15,6 @@ interface UserAttributes {
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
-
-interface User extends HasManyMixin<
-  Product,
-  number,
-  "Product",
-  "Products",
-  "userId"
-> {}
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -29,6 +26,10 @@ class User
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  // Association methods
+  public getProducts!: HasManyGetAssociationsMixin<Product>;
+  public createProduct!: HasManyCreateAssociationMixin<Product, "userId">;
 }
 
 User.init(

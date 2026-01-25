@@ -1,7 +1,11 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import {
+  DataTypes,
+  Model,
+  Optional,
+  type BelongsToGetAssociationMixin,
+} from "sequelize";
 import sequelize from "../util/database";
 import User from "./user";
-import { BelongsToMixin } from "../types/sequelize-mixins";
 
 export interface ProductAttributes {
   id: number;
@@ -17,8 +21,6 @@ export interface ProductCreationAttributes extends Optional<
   "id"
 > {}
 
-interface Product extends BelongsToMixin<User, number, "User"> {}
-
 class Product
   extends Model<ProductAttributes, ProductCreationAttributes>
   implements ProductAttributes
@@ -32,6 +34,9 @@ class Product
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  // Association methods
+  public getUser!: BelongsToGetAssociationMixin<User>;
 }
 
 Product.init(
