@@ -61,7 +61,17 @@ export const postDeleteProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await req.user.removeProduct(Number(req.body.id));
+    const [product] = await req.user.getProducts({
+      where: { id: Number(req.body.id) },
+    });
+
+    if (!product) {
+      res.status(404).redirect("/admin/products");
+      return;
+    }
+
+    await product.destroy();
+
     res.redirect("/admin/products");
   } catch (err) {
     next(err);
