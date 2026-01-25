@@ -1,14 +1,7 @@
-import {
-  DataTypes,
-  Model,
-  Optional,
-  HasManyGetAssociationsMixin,
-  HasManyAddAssociationMixin,
-  HasManyRemoveAssociationMixin,
-  HasManyCreateAssociationMixin,
-} from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../util/database";
 import Product from "./product";
+import { HasManyMixin } from "../types/sequelize-mixins";
 
 interface UserAttributes {
   id: number;
@@ -17,6 +10,14 @@ interface UserAttributes {
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+interface User extends HasManyMixin<
+  Product,
+  number,
+  "Product",
+  "Products",
+  "userId"
+> {}
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -28,12 +29,6 @@ class User
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-
-  // Association mixins - automatically added by Sequelize when associations are defined
-  declare getProducts: HasManyGetAssociationsMixin<Product>;
-  declare addProduct: HasManyAddAssociationMixin<Product, number>;
-  declare createProduct: HasManyCreateAssociationMixin<Product, "userId">;
-  declare removeProduct: HasManyRemoveAssociationMixin<Product, number>;
 }
 
 User.init(

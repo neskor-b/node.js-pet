@@ -1,12 +1,7 @@
-import {
-  DataTypes,
-  Model,
-  Optional,
-  BelongsToGetAssociationMixin,
-  BelongsToSetAssociationMixin,
-} from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../util/database";
 import User from "./user";
+import { BelongsToMixin } from "../types/sequelize-mixins";
 
 export interface ProductAttributes {
   id: number;
@@ -22,6 +17,8 @@ export interface ProductCreationAttributes extends Optional<
   "id"
 > {}
 
+interface Product extends BelongsToMixin<User, number, "User"> {}
+
 class Product
   extends Model<ProductAttributes, ProductCreationAttributes>
   implements ProductAttributes
@@ -35,10 +32,6 @@ class Product
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-
-  // Association mixins - automatically added by Sequelize when associations are defined
-  declare getUser: BelongsToGetAssociationMixin<User>;
-  declare setUser: BelongsToSetAssociationMixin<User, number>;
 }
 
 Product.init(
