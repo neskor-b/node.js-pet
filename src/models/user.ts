@@ -34,7 +34,6 @@ class User
   declare getProducts: HasManyGetAssociationsMixin<Product>;
   declare addProduct: HasManyAddAssociationMixin<Product, number>;
   declare createProduct: HasManyCreateAssociationMixin<Product, "userId">;
-  declare setProducts: HasManySetAssociationsMixin<Product, number>;
   declare removeProduct: HasManyRemoveAssociationMixin<Product, number>;
 }
 

@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { Product } from "../models";
 import {
   ProductBody,
   ProductIdParams,
@@ -24,10 +23,6 @@ export const postAddProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    if (!req.user) {
-      res.status(401).send("User not found");
-      return undefined;
-    }
     await req.user.createProduct({
       title: req.body.title,
       price: Number(req.body.price),
@@ -47,8 +42,9 @@ export const getEditProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const prodId = req.params.productId;
-    const product = await Product.findByPk(prodId);
+    const [product] = await req.user.getProducts({
+      where: { id: req.params.productId },
+    });
     res.render("admin/edit-product", {
       pageTitle: "Edit Product",
       path: "/admin/edit-product",
@@ -65,8 +61,7 @@ export const postDeleteProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const prodId = req.body.id;
-    await Product.destroy({ where: { id: prodId } });
+    await req.user.removeProduct(Number(req.body.id));
     res.redirect("/admin/products");
   } catch (err) {
     next(err);
@@ -79,16 +74,22 @@ export const postEditProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const prodId = req.params.productId;
-    await Product.update(
-      {
-        title: req.body.title,
-        price: Number(req.body.price),
-        imageUrl: req.body.imageUrl,
-        description: req.body.description,
-      },
-      { where: { id: prodId } }
-    );
+    const [product] = await req.user.getProducts({
+      where: { id: req.params.productId },
+    });
+
+    if (!product) {
+      res.status(404).redirect("/admin/products");
+      return;
+    }
+
+    await product.update({
+      title: req.body.title,
+      price: Number(req.body.price),
+      imageUrl: req.body.imageUrl,
+      description: req.body.description,
+    });
+
     res.redirect("/admin/products");
   } catch (err) {
     next(err);
@@ -101,7 +102,7 @@ export const getProducts = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const products = await Product.findAll();
+    const products = await req.user.getProducts();
     res.render("admin/products", {
       prods: products,
       pageTitle: "Admin products",
