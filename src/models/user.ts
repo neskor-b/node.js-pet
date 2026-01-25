@@ -1,4 +1,13 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import {
+  DataTypes,
+  Model,
+  Optional,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManySetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyCreateAssociationMixin,
+} from "sequelize";
 import sequelize from "../util/database";
 import Product from "./product";
 
@@ -21,10 +30,12 @@ class User
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public getProducts!: () => Promise<Product[]>;
-  public addProduct!: (product: Product) => Promise<void>;
-  public setProducts!: (products: Product[]) => Promise<void>;
-  public removeProduct!: (product: Product) => Promise<void>;
+  // Association mixins - automatically added by Sequelize when associations are defined
+  declare getProducts: HasManyGetAssociationsMixin<Product>;
+  declare addProduct: HasManyAddAssociationMixin<Product, number>;
+  declare createProduct: HasManyCreateAssociationMixin<Product, "userId">;
+  declare setProducts: HasManySetAssociationsMixin<Product, number>;
+  declare removeProduct: HasManyRemoveAssociationMixin<Product, number>;
 }
 
 User.init(

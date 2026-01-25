@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Product from "../models/product";
+import { Product } from "../models";
 import {
   ProductBody,
   ProductIdParams,
@@ -28,13 +28,11 @@ export const postAddProduct = async (
       res.status(401).send("User not found");
       return undefined;
     }
-
-    await Product.create({
+    await req.user.createProduct({
       title: req.body.title,
       price: Number(req.body.price),
       imageUrl: req.body.imageUrl,
       description: req.body.description,
-      userId: req.user.id,
     });
     res.redirect("/");
   } catch (err) {

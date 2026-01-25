@@ -1,8 +1,14 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import {
+  DataTypes,
+  Model,
+  Optional,
+  BelongsToGetAssociationMixin,
+  BelongsToSetAssociationMixin,
+} from "sequelize";
 import sequelize from "../util/database";
 import User from "./user";
 
-interface ProductAttributes {
+export interface ProductAttributes {
   id: number;
   title: string;
   price: number;
@@ -11,7 +17,10 @@ interface ProductAttributes {
   userId: number;
 }
 
-interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
+export interface ProductCreationAttributes extends Optional<
+  ProductAttributes,
+  "id"
+> {}
 
 class Product
   extends Model<ProductAttributes, ProductCreationAttributes>
@@ -27,9 +36,9 @@ class Product
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Associations
-  public getUser!: () => Promise<User>;
-  public setUser!: (user: User) => Promise<void>;
+  // Association mixins - automatically added by Sequelize when associations are defined
+  declare getUser: BelongsToGetAssociationMixin<User>;
+  declare setUser: BelongsToSetAssociationMixin<User, number>;
 }
 
 Product.init(
