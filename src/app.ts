@@ -6,6 +6,16 @@ import * as errorController from "./controllers/error";
 import sequelize from "./util/database";
 import adminRoutes from "./routes/admin";
 import shopRoutes from "./routes/shop";
+import Product from "./models/product";
+import User from "./models/user";
+
+Product.belongsTo(User, {
+  constraints: true,
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+User.hasMany(Product);
 
 const app = express();
 
