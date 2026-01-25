@@ -40,3 +40,5 @@ User.init(
     modelName: "user",
   }
 );
+
+export default User;
