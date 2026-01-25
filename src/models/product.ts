@@ -27,7 +27,7 @@ class Product
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Зв'язки
+  // Associations
   public getUser!: () => Promise<User>;
   public setUser!: (user: User) => Promise<void>;
 }
