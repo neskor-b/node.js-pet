@@ -4,7 +4,6 @@ import {
   Optional,
   HasManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
-  HasManySetAssociationsMixin,
   HasManyRemoveAssociationMixin,
   HasManyCreateAssociationMixin,
 } from "sequelize";
