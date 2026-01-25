@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../util/database";
+import Product from "./product";
 
 interface UserAttributes {
   id: number;
@@ -16,6 +17,14 @@ class User
   public id!: number;
   public name!: string;
   public email!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
+  public getProducts!: () => Promise<Product[]>;
+  public addProduct!: (product: Product) => Promise<void>;
+  public setProducts!: (products: Product[]) => Promise<void>;
+  public removeProduct!: (product: Product) => Promise<void>;
 }
 
 User.init(

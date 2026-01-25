@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../util/database";
+import User from "./user";
 
 interface ProductAttributes {
   id: number;
@@ -7,6 +8,7 @@ interface ProductAttributes {
   price: number;
   imageUrl: string;
   description: string;
+  userId: number;
 }
 
 interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
@@ -20,9 +22,14 @@ class Product
   public price!: number;
   public imageUrl!: string;
   public description!: string;
+  public userId!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  // Зв'язки
+  public getUser!: () => Promise<User>;
+  public setUser!: (user: User) => Promise<void>;
 }
 
 Product.init(
@@ -48,6 +55,14 @@ Product.init(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
     },
   },
   {

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Product from "../models/product";
+import User from "../models/user";
 import {
   ProductBody,
   ProductIdParams,
@@ -24,11 +25,17 @@ export const postAddProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const [user] = await User.findOrCreate({
+      where: { email: "admin@example.com" },
+      defaults: { name: "Admin", email: "admin@example.com" },
+    });
+
     await Product.create({
       title: req.body.title,
       price: Number(req.body.price),
       imageUrl: req.body.imageUrl,
       description: req.body.description,
+      userId: user.id,
     });
     res.redirect("/");
   } catch (err) {
