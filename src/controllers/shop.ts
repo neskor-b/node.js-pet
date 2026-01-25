@@ -1,15 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import Product from '../models/product';
-import Cart from '../models/cart';
-import { ProductIdParams, AddToCartBody, DeleteProductBody } from '../types/requests';
+import { Request, Response, NextFunction } from "express";
+import Product from "../models/product";
+import Cart from "../models/cart";
+import {
+  ProductIdParams,
+  AddToCartBody,
+  DeleteProductBody,
+} from "../types/requests";
 
-export const getProducts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const products = await Product.findAll();
-    res.render('shop/product-list', {
+    res.render("shop/product-list", {
       prods: products,
-      pageTitle: 'All products',
-      path: '/products',
+      pageTitle: "All products",
+      path: "/products",
       activeShop: true,
       hasProducts: products.length > 0,
     });
@@ -27,36 +35,44 @@ export const getProduct = async (
   try {
     const product = await Product.findByPk(prodId);
     if (!product) {
-      res.status(404).render('404', {
-        pageTitle: 'Product Not Found',
-        path: '/products',
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/products",
       });
       return;
     }
-    res.render('shop/product-detail', {
+    res.render("shop/product-detail", {
       product: product,
       pageTitle: product.title,
-      path: '/products',
+      path: "/products",
     });
   } catch (err) {
     next(err);
   }
 };
 
-export const getIndex = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getIndex = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const products = await Product.findAll();
-    res.render('shop/index', {
+    res.render("shop/index", {
       prods: products,
-      pageTitle: 'Shop',
-      path: '/',
+      pageTitle: "Shop",
+      path: "/",
     });
   } catch (err) {
     next(err);
   }
 };
 
-export const getCart = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const cart = await Cart.getCart();
     const products = await Product.findAll();
@@ -65,9 +81,9 @@ export const getCart = async (req: Request, res: Response, next: NextFunction): 
       return { ...product?.dataValues, quantity: cartProduct.quantity };
     });
 
-    res.render('shop/cart', {
-      pageTitle: 'Your Cart',
-      path: '/cart',
+    res.render("shop/cart", {
+      pageTitle: "Your Cart",
+      path: "/cart",
       products: cartProducts,
     });
   } catch (err) {
@@ -86,7 +102,7 @@ export const postCart = async (
     if (product) {
       await Cart.addProduct(prodId, product.price);
     }
-    res.redirect('/cart');
+    res.redirect("/cart");
   } catch (err) {
     next(err);
   }
@@ -103,22 +119,30 @@ export const postCartDelete = async (
     if (product) {
       await Cart.deleteProduct(prodId, product.price);
     }
-    res.redirect('/cart');
+    res.redirect("/cart");
   } catch (err) {
     next(err);
   }
 };
 
-export const getCheckout = (req: Request, res: Response, next: NextFunction): void => {
-  res.render('shop/checkout', {
-    pageTitle: 'Checkout',
-    path: '/checkout',
+export const getCheckout = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  res.render("shop/checkout", {
+    pageTitle: "Checkout",
+    path: "/checkout",
   });
 };
 
-export const getOrders = (req: Request, res: Response, next: NextFunction): void => {
-  res.render('shop/orders', {
-    pageTitle: 'Orders',
-    path: '/orders',
+export const getOrders = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  res.render("shop/orders", {
+    pageTitle: "Orders",
+    path: "/orders",
   });
 };

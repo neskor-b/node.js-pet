@@ -8,14 +8,19 @@
     "build": "tsc",
     "start": "ts-node src/app.ts",
     "start:dev": "nodemon --exec ts-node src/app.ts",
-    "start:prod": "node dist/app.js"
+    "start:prod": "node dist/app.js",
+    "format": "prettier --write \"**/*.{ts,js,json,css,html,ejs}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,css,html,ejs}\""
   },
   "author": "Bohdan Neskorozhenyy",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "nodemon": "^1.18.3",
+    "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },

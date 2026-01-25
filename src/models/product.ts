@@ -1,5 +1,5 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../util/database';
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelize from "../util/database";
 
 interface ProductAttributes {
   id: number;
@@ -9,9 +9,12 @@ interface ProductAttributes {
   description: string;
 }
 
-interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'> {}
+interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
 
-class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
+class Product
+  extends Model<ProductAttributes, ProductCreationAttributes>
+  implements ProductAttributes
+{
   public id!: number;
   public title!: string;
   public price!: number;
@@ -49,7 +52,7 @@ Product.init(
   },
   {
     sequelize,
-    modelName: 'product',
+    modelName: "product",
   }
 );
 

@@ -1,5 +1,5 @@
-import fs from 'fs';
-import { CART_PATH } from './constants';
+import fs from "fs";
+import { CART_PATH } from "./constants";
 
 interface CartProduct {
   id: string;
@@ -16,7 +16,7 @@ export default class Cart {
     let cart: CartData = { products: [], totalPrice: 0 };
 
     try {
-      const fileContent = await fs.promises.readFile(CART_PATH, 'utf-8');
+      const fileContent = await fs.promises.readFile(CART_PATH, "utf-8");
       cart = JSON.parse(fileContent);
     } catch (err) {
       console.log(err);
@@ -45,7 +45,7 @@ export default class Cart {
 
   static async deleteProduct(id: string, productPrice: number): Promise<void> {
     try {
-      const fileContent = await fs.promises.readFile(CART_PATH, 'utf-8');
+      const fileContent = await fs.promises.readFile(CART_PATH, "utf-8");
       const cart: CartData = JSON.parse(fileContent);
       const product = cart.products.find((prod) => prod.id === id);
       if (!product) {
@@ -62,7 +62,7 @@ export default class Cart {
 
   static async getCart(): Promise<CartData | null> {
     try {
-      const fileContent = await fs.promises.readFile(CART_PATH, 'utf-8');
+      const fileContent = await fs.promises.readFile(CART_PATH, "utf-8");
       const cart: CartData = JSON.parse(fileContent);
       return cart;
     } catch (err) {
