@@ -7,7 +7,7 @@ import {
   type BelongsToManyRemoveAssociationMixin,
 } from "sequelize";
 import sequelize from "../util/database";
-import Product, { ProductAttributes } from "./product";
+import Product from "./product";
 
 interface CartAttributes {
   id: number;
@@ -24,10 +24,10 @@ class Cart
 {
   public id!: number;
   public getProducts!: BelongsToManyGetAssociationsMixin<Product>;
-  public addProduct!: BelongsToManyAddAssociationMixin<Product, "productId">;
+  public addProduct!: BelongsToManyAddAssociationMixin<Product, Product["id"]>;
   public removeProduct!: BelongsToManyRemoveAssociationMixin<
     Product,
-    "productId"
+    Product["id"]
   >;
 }
 

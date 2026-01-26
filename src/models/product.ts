@@ -3,9 +3,11 @@ import {
   Model,
   Optional,
   type BelongsToGetAssociationMixin,
+  NonAttribute,
 } from "sequelize";
 import sequelize from "../util/database";
 import User from "./user";
+import CartItem from "./cart-item";
 
 export interface ProductAttributes {
   id: number;
@@ -37,6 +39,9 @@ class Product
 
   // Association methods
   public getUser!: BelongsToGetAssociationMixin<User>;
+
+  // Through table data (when Product is fetched via belongsToMany with CartItem)
+  public CartItem?: NonAttribute<CartItem>;
 }
 
 Product.init(
