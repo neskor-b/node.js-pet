@@ -4,9 +4,11 @@ import {
   Optional,
   type HasManyGetAssociationsMixin,
   type HasManyCreateAssociationMixin,
+  type HasOneGetAssociationMixin,
 } from "sequelize";
 import sequelize from "../util/database";
 import Product from "./product";
+import Cart from "./cart";
 
 interface UserAttributes {
   id: number;
@@ -30,6 +32,8 @@ class User
   // Association methods
   public getProducts!: HasManyGetAssociationsMixin<Product>;
   public createProduct!: HasManyCreateAssociationMixin<Product, "userId">;
+  public getCart!: HasOneGetAssociationMixin<Cart>;
+  public createCart!: HasManyCreateAssociationMixin<Cart>;
 }
 
 User.init(

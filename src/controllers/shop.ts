@@ -74,13 +74,8 @@ export const getCart = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const cart = await Cart.getCart();
-    const products = await Product.findAll();
-    const cartProducts = cart?.products?.map((cartProduct) => {
-      const product = products.find((p) => p.id.toString() === cartProduct.id);
-      return { ...product?.dataValues, quantity: cartProduct.quantity };
-    });
-
+    const cart = await req.user.getCart();
+    const cartProducts = await cart.getProducts();
     res.render("shop/cart", {
       pageTitle: "Your Cart",
       path: "/cart",
@@ -98,9 +93,10 @@ export const postCart = async (
 ): Promise<void> => {
   try {
     const prodId = req.body.productId;
+    const cart = await req.user.getCart();
     const product = await Product.findByPk(prodId);
     if (product) {
-      await Cart.addProduct(prodId, product.price);
+      await cart.addProduct(product);
     }
     res.redirect("/cart");
   } catch (err) {
@@ -115,9 +111,10 @@ export const postCartDelete = async (
 ): Promise<void> => {
   try {
     const prodId = req.body.id;
+    const cart = await req.user.getCart();
     const product = await Product.findByPk(prodId);
     if (product) {
-      await Cart.deleteProduct(prodId, product.price);
+      await cart.removeProduct(product);
     }
     res.redirect("/cart");
   } catch (err) {
