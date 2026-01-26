@@ -138,9 +138,14 @@ export const postCartDelete = async (
     const prodId = req.body.id;
     const cart = await req.user.getCart();
     const product = await Product.findByPk(prodId);
-    if (product) {
-      await cart.removeProduct(product);
+    if (!product) {
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/cart",
+      });
+      return;
     }
+    await cart.removeProduct(product);
     res.redirect("/cart");
   } catch (err) {
     next(err);

@@ -45,6 +45,13 @@ export const getEditProduct = async (
     const [product] = await req.user.getProducts({
       where: { id: req.params.productId },
     });
+    if (!product) {
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/admin/products",
+      });
+      return;
+    }
     res.render("admin/edit-product", {
       pageTitle: "Edit Product",
       path: "/admin/edit-product",
@@ -66,7 +73,10 @@ export const postDeleteProduct = async (
     });
 
     if (!product) {
-      res.status(404).redirect("/admin/products");
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/admin/products",
+      });
       return;
     }
 
@@ -89,7 +99,10 @@ export const postEditProduct = async (
     });
 
     if (!product) {
-      res.status(404).redirect("/admin/products");
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/admin/products",
+      });
       return;
     }
 
