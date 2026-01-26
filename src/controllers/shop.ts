@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Product from "../models/product";
-import Cart from "../models/cart";
+import CartItem from "../models/cart-item";
 import {
   ProductIdParams,
   AddToCartBody,
@@ -92,12 +92,37 @@ export const postCart = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const prodId = req.body.productId;
-    const cart = await req.user.getCart();
+    const prodId = parseInt(req.body.productId);
     const product = await Product.findByPk(prodId);
-    if (product) {
-      await cart.addProduct(product);
+
+    if (!product) {
+      res.status(404).render("404", {
+        pageTitle: "Product Not Found",
+        path: "/cart",
+      });
+      return;
     }
+
+    const cart = await req.user.getCart();
+    const cartProducts = await cart.getProducts();
+    const existingProduct = cartProducts.find((p) => p.id === prodId);
+
+    if (existingProduct) {
+      const cartItem = await CartItem.findOne({
+        where: {
+          cartId: cart.id,
+          productId: prodId,
+        },
+      });
+
+      if (cartItem) {
+        cartItem.quantity += 1;
+        await cartItem.save();
+      }
+    } else {
+      await cart.addProduct(product, { through: { quantity: 1 } });
+    }
+
     res.redirect("/cart");
   } catch (err) {
     next(err);

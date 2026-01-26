@@ -4,7 +4,7 @@ import sequelize from "./util/database";
 const PORT = process.env.PORT || 3000;
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
