@@ -8,15 +8,26 @@ export const defineAssociations = (): void => {
     constraints: true,
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    foreignKey: "userId",
   });
-  User.hasMany(Product);
-  User.hasOne(Cart);
-  Cart.belongsTo(User);
+  User.hasMany(Product, {
+    foreignKey: "userId",
+  });
+  User.hasOne(Cart, {
+    foreignKey: "userId",
+  });
+  Cart.belongsTo(User, {
+    foreignKey: "userId",
+  });
   Cart.belongsToMany(Product, {
     through: CartItem,
+    foreignKey: "cartId",
+    otherKey: "productId",
   });
   Product.belongsToMany(Cart, {
     through: CartItem,
+    foreignKey: "productId",
+    otherKey: "cartId",
   });
 };
 

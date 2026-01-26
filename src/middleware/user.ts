@@ -18,7 +18,10 @@ export const setUser = async (
       where: { email: "admin@example.com" },
       defaults: { name: "Admin", email: "admin@example.com" },
     });
-    await user.createCart();
+    const cart = await user.getCart();
+    if (!cart) {
+      await user.createCart();
+    }
 
     req.user = user;
     next();
